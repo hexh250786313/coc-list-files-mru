@@ -1,0 +1,66 @@
+{
+    "name": "@hexuhua/coc-list-files-mru",
+    "version": "0.0.0-development",
+    "description": "A files finder plugin running at hacked coc.nvim.",
+    "main": "build/index.js",
+    "engines": {
+        "coc": "^0.0.82"
+    },
+    "keywords": [
+        "coc",
+        "coc.nvim",
+        "coc-list",
+        "files",
+        "mru"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "scripts": {
+        "clean": "rimraf build",
+        "build": "yarn && NODE_ENV=production node esbuild.js",
+        "prepare": "husky install && yarn clean"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,cjs,mjs}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.{json,md,css,less,sass,scss}": [
+            "prettier --write"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hexh250786313/coc-list-files-mru.git"
+    },
+    "author": "hexh <250786313@qq.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/hexh250786313/coc-list-files-mru/issues"
+    },
+    "homepage": "https://github.com/hexh250786313/coc-list-files-mru#readme",
+    "devDependencies": {
+        "@tsconfig/recommended": "^1.0.2",
+        "@types/colors": "^1.2.1",
+        "@types/minimatch": "^5.1.2",
+        "@types/node": "^18.15.9",
+        "@types/which": "^3.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.56.0",
+        "@typescript-eslint/parser": "^5.56.0",
+        "coc.nvim": "^0.0.83-next.9",
+        "esbuild": "^0.17.13",
+        "eslint": "^8.36.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.2.0",
+        "minimatch": "^7.4.3",
+        "prettier": "^2.8.7",
+        "rimraf": "^4.4.1",
+        "typescript": "^5.0.2",
+        "vscode-uri": "^3.0.7",
+        "which": "^3.0.0"
+    },
+    "contributes": {}
+}
