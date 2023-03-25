@@ -1,0 +1,32 @@
+{
+  "name": "@hexuhua/coc-list-files-mru",
+  "version": "0.0.1",
+  "description": "A files finder plugin running at hacked coc.nvim.",
+  "main": "lib/index.js",
+  "engines": {
+    "coc": "^0.0.82"
+  },
+  "keywords": [
+    "coc",
+    "coc.nvim",
+    "coc-list",
+    "files",
+    "mru"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "scripts": {
+    "release": "git checkout master -- ./README.md && cp ./build/index.js ./lib && rm -rf ./build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hexh250786313/coc-list-files-mru.git"
+  },
+  "author": "hexh <250786313@qq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hexh250786313/coc-list-files-mru/issues"
+  },
+  "homepage": "https://github.com/hexh250786313/coc-list-files-mru#readme"
+}
