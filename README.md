@@ -22,13 +22,13 @@ Meanwhile, because coc does not support dynamically switching the list data, you
 
 Find your coc.nvim install path and do the following changes in `/path/to/your/coc.nvim/build/index.js`
 
-<img src="https://user-images.githubusercontent.com/26080416/227732196-fb9a377e-9b6b-4aa5-afde-b8c9acac4c17.png" width="75%">
+<img src="https://user-images.githubusercontent.com/26080416/227757531-3845157b-07b0-49f3-9910-5ed5a20cc3bb.png" width="75%">
 
 Or execute these commands to do the same if you use [sd](https://github.com/chmln/sd):
 
 ```shell
 sd '}\n.*set loading\(loading\)' '  this.mruFlag = true; } set loading(loading)' /path/to/your/coc.nvim/build/index.js
-sd 'async drawItems\(\) \{' 'async drawItems(context) { if (context.input.length > 0 && this.mruFlag === true) { this.mruFlag = false; await this.loadItems(context); await this.drawItems(context); return; } if (context.input.length === 0 && this.mruFlag === false) { this.mruFlag = true; await this.loadItems(context); await this.drawItems(context); return; }' /path/to/your/coc.nvim/build/index.js
+sd 'async drawItems\(\) \{' 'async drawItems(context) { var _a2; if (((_a2 = this.list) == null ? void 0 : _a2.name) === "filesMru") { if ((context == null ? void 0 : context.input.length) > 0 && this.mruFlag === true) { this.mruFlag = false; await this.loadItems(context); await this.drawItems(context); return; } if ((context == null ? void 0 : context.input.length) === 0 && this.mruFlag === false) { this.mruFlag = true; await this.loadItems(context); await this.drawItems(context); return; } }'  /path/to/your/coc.nvim/build/index.js
 sd 'void this.worker.drawItems\(\);' 'void this.worker.drawItems(this.context);' /path/to/your/coc.nvim/build/index.js
 ```
 
