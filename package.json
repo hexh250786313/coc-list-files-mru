@@ -1,6 +1,6 @@
 {
   "name": "@hexuhua/coc-list-files-mru",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A files finder plugin running at hacked coc.nvim.",
   "main": "lib/index.js",
   "engines": {
@@ -9,7 +9,7 @@
   "keywords": [
     "coc",
     "coc.nvim",
-    "coc-list",
+    "coc-lists",
     "files",
     "mru"
   ],
