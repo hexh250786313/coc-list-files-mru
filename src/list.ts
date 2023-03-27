@@ -1,7 +1,6 @@
 import { ChildProcess, spawn } from 'child_process'
 import {
     BasicList,
-    Document,
     ListContext,
     ListItem,
     ListTask,
@@ -10,8 +9,6 @@ import {
     Neovim,
     Range,
     Uri,
-    commands,
-    events,
     workspace,
 } from 'coc.nvim'
 import { EventEmitter } from 'events'
@@ -19,7 +16,7 @@ import fs from 'fs'
 import minimatch from 'minimatch'
 import path from 'path'
 import readline from 'readline'
-import { executable, isParentFolder, wait } from './util'
+import { executable, isParentFolder } from './util'
 import { URI } from 'vscode-uri'
 
 class Task extends EventEmitter implements ListTask {
@@ -110,94 +107,10 @@ export default class FilesList extends BasicList {
                 'Search files from all workspace folders instead of cwd.',
         },
     ]
-    private promise: Promise<void> = Promise.resolve(undefined)
-
     constructor(nvim: Neovim) {
         super(nvim)
-        this.addLocationActions()
-
         this.mru = workspace.createMru('mru')
-        this.addAction(
-            'deconste',
-            async (item, _context) => {
-                const filepath = URI.parse(item.data.uri).fsPath
-                await this.mru.remove(filepath)
-            },
-            { reload: true, persist: true }
-        )
-        this.addAction(
-            'clean',
-            async () => {
-                await this.mru.clean()
-            },
-            { reload: true, persist: true }
-        )
-
-        this.disposables.push(
-            commands.registerCommand('mru.validate', async () => {
-                const files = await this.mru.load()
-                for (const file of files) {
-                    if (!fs.existsSync(file)) {
-                        await this.mru.remove(file)
-                    }
-                }
-            })
-        )
-
-        for (const doc of workspace.documents) {
-            this.addRecentFile(doc)
-        }
-
-        workspace.onDidOpenTextDocument(
-            async (textDocument) => {
-                await wait(50)
-                const doc = workspace.getDocument(textDocument.uri)
-                if (doc) this.addRecentFile(doc)
-            },
-            null,
-            this.disposables
-        )
-
-        events.on(
-            'BufEnter',
-            (bufnr) => {
-                const doc = workspace.getDocument(bufnr)
-                if (doc) this.addRecentFile(doc)
-            },
-            null,
-            this.disposables
-        )
-    }
-
-    private addRecentFile(doc: Document): void {
-        this.promise = this.promise.then(
-            () => {
-                return this._addRecentFile(doc)
-            },
-            () => {
-                return this._addRecentFile(doc)
-            }
-        )
-    }
-
-    private async _addRecentFile(doc: Document): Promise<void> {
-        const uri = URI.parse(doc.uri)
-        if (uri.scheme !== 'file' || doc.buftype != '') return
-        // if (doc.ficonstype == 'netrw') return
-        if (doc.uri.indexOf('NERD_tree') !== -1) return
-        const parts = uri.fsPath.split(path.sep)
-        if (parts.indexOf('.git') !== -1 || parts.length == 0) return
-        const preview = await this.nvim.eval(
-            `getwinvar(bufwinnr(${doc.bufnr}), '&previewwindow')`
-        )
-        if (preview == 1) return
-        const filepath = uri.fsPath
-        const patterns = this.config.get<string[]>(
-            'source.mru.excludePatterns',
-            []
-        )
-        if (patterns.some((p) => minimatch(filepath, p))) return
-        await this.mru.add(filepath)
+        this.addLocationActions()
     }
 
     private getArgs(args: string[], defaultArgs: string[]): string[] {
